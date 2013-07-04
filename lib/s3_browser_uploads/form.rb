@@ -1,7 +1,8 @@
 require 'time'
 module S3BrowserUploads
   class Form
-    attr_accessor :region, :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :bucket, :acl, :expires
+    attr_accessor :region, :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :expires, :bucket
+
  
     def initialize(options={})
       options.each {|key, value| public_send("#{key}=", value)}
