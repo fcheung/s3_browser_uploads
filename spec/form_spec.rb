@@ -48,6 +48,13 @@ describe S3BrowserUploads::Form do
       end
     end
 
+    context 'with an eq condition' do
+      it 'should have the condition' do
+        form.add_condition 'key', 'eq' => 'abc'
+        form.policy_document['conditions'].should =~ [{'bucket' => 'some-bucket'}, ['eq', '$key', 'abc']]
+      end
+    end
+
     context 'when a field has been added' do
       it 'should add a strict match condition on the field' do
         form.add_field('acl', 'private')
