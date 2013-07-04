@@ -41,10 +41,23 @@ describe S3BrowserUploads::Form do
       end
     end
 
+    context 'with a starts-with condition' do
+      it 'should have the condition' do
+        form.add_condition 'key', 'starts-with' => 'abc'
+        form.policy_document['conditions'].should =~ [{'bucket' => 'some-bucket'}, ['starts-with', '$key', 'abc']]
+      end
+    end
+
     context 'when a field has been added' do
       it 'should add a strict match condition on the field' do
         form.add_field('acl', 'private')
         form.policy_document['conditions'].should == [{'bucket' => 'some-bucket'}, {'acl' => 'private'}]
+      end
+
+      it 'should the condition to be overriden' do
+        form.add_field('key', 'users/bob/${filename}')
+        form.add_condition('key', 'starts-with' => 'users/bob/')
+        form.policy_document['conditions'].should == [{'bucket' => 'some-bucket'}, ['starts-with', '$key', 'users/bob/']]
       end
     end
   end

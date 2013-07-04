@@ -19,7 +19,17 @@ module S3BrowserUploads
     end
 
     def add_condition key, condition
-      @conditions[key] = {key => condition} 
+      @conditions[key] = case condition
+      when String then {key => condition} 
+      when Hash then
+        if condition['starts-with']
+          ['starts-with', "$#{key}", condition['starts-with']]
+        else
+          raise ArgumentError, "unknown condition type #{condition}"
+        end
+      else
+        raise ArgumentError, "unknown condition type #{condition}"
+      end
     end
 
     def initialize(options={})
