@@ -1,4 +1,6 @@
 require 'time'
+require 'base64'
+require 'json'
 module S3BrowserUploads
   class Form
     attr_accessor :region, :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :expires, :fields
@@ -42,6 +44,10 @@ module S3BrowserUploads
  
     def endpoint
       "https://#{bucket}.s3-#{region}.amazonaws.com"
+    end
+
+    def encoded_policy
+      Base64.strict_encode64(policy_document.to_json)
     end
 
     def policy_document

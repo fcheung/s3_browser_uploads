@@ -17,6 +17,15 @@ describe S3BrowserUploads::Form do
     end
   end
 
+  describe 'encoded_policy' do
+    subject { S3BrowserUploads::Form.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
+
+    its(:encoded_policy) {should == Base64.strict_encode64(subject.policy_document.to_json)}
+    its(:encoded_policy) {should_not include("\n") }
+
+  end
+
+
   describe 'policy_document' do
     let(:form) { S3BrowserUploads::Form.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
 
