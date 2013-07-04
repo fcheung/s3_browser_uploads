@@ -48,6 +48,14 @@ describe S3BrowserUploads::Form do
       end
     end
 
+
+    context 'with a content-length condition' do
+      it 'should have the condition' do
+        form.restrict_content_length 0..1024
+        form.policy_document['conditions'].should =~ [{'bucket' => 'some-bucket'}, ['content-length-range', 0,1024]]
+      end
+    end
+
     context 'with an eq condition' do
       it 'should have the condition' do
         form.add_condition 'key', 'eq' => 'abc'

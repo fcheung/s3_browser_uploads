@@ -23,9 +23,15 @@ module S3BrowserUploads
       when String then {key => condition} 
       when Hash then 
         [condition.keys.first, "$#{key}", condition.values.first]
+      when Range then
+        [key, condition.begin, condition.end]
       else
         raise ArgumentError, "unknown condition type #{condition}"
       end
+    end
+
+    def restrict_content_length range
+      add_condition 'content-length-range', range
     end
 
     def initialize(options={})
