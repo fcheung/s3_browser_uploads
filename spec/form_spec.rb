@@ -7,4 +7,11 @@ describe S3BrowserUploads::Form do
       form.send(key).should == 'foo'
     end
   end
+
+  describe 'endpoint' do
+    it 'should return the url for the bucket' do
+      S3BrowserUploads::Form.new(:region => 'eu-west-1', :bucket => 'some-bucket').endpoint.should  ==
+        "https://some-bucket.s3-eu-west-1.amazonaws.com"
+    end
+  end
 end
