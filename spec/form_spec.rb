@@ -29,8 +29,15 @@ describe S3BrowserUploads::Form do
     end
 
     context 'with no conditions added' do
-      it 'conditions should contain the bucket' do
+      it 'should have a condition on the bucket' do
         form.policy_document['conditions'].should == [{'bucket' => 'some-bucket'}]
+      end
+    end
+
+    context 'with a strict condition added' do
+      it 'should have the condition' do
+        form.add_condition 'key', 'abc'
+        form.policy_document['conditions'].should =~ [{'bucket' => 'some-bucket'}, {'key' => 'abc'}]
       end
     end
 

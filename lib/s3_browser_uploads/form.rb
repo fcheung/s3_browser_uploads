@@ -14,8 +14,12 @@ module S3BrowserUploads
 
     def add_field key, value
       fields[key] = value
-      @conditions[key] = {key => value}
+      add_condition key, value
       value
+    end
+
+    def add_condition key, condition
+      @conditions[key] = {key => condition} 
     end
 
     def initialize(options={})
