@@ -27,5 +27,18 @@ describe S3BrowserUploads::Form do
     it 'should set expires to the xml schema representation of the expiry date' do
       form.policy_document['expires'].should == expires_at.xmlschema
     end
+
+    context 'with no conditions added' do
+      it 'conditions should contain the bucket' do
+        form.policy_document['conditions'].should == [{'bucket' => 'some-bucket'}]
+      end
+    end
+
+    context 'when a field has been added' do
+      it 'should add a strict match condition on the field' do
+        form.add_field('acl', 'private')
+        form.policy_document['conditions'].should == [{'bucket' => 'some-bucket'}, {'acl' => 'private'}]
+      end
+    end
   end
 end

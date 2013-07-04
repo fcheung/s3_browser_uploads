@@ -14,10 +14,13 @@ module S3BrowserUploads
 
     def add_field key, value
       fields[key] = value
+      @conditions[key] = {key => value}
+      value
     end
-    
+
     def initialize(options={})
       @fields = {}
+      @conditions = {}
       options.each {|key, value| public_send("#{key}=", value)}
     end
  
@@ -28,8 +31,9 @@ module S3BrowserUploads
     def policy_document
       {
         'expires' => expires.xmlschema,
-        'conditions' => []
+        'conditions' => @conditions.values
       }
     end
+
   end
 end
