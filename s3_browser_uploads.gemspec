@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = S3BrowserUploads::VERSION
   spec.authors       = ["Frederick Cheung"]
   spec.email         = ["frederick.cheung@gmail.com"]
-  spec.description   = %q{TODO: Easy straight-to-s3 uploads from your browser}
-  spec.summary       = %q{TODO: Easy straight-to-s3 uploads from your browser}
+  spec.description   = %q{Easy straight-to-s3 uploads from your browser}
+  spec.summary       = %q{Easy straight-to-s3 uploads from your browser}
   spec.homepage      = "https://github.com/fcheung/s3_browser_uploads"
   spec.license       = "MIT"
 
