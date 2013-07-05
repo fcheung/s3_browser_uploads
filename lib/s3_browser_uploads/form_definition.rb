@@ -2,7 +2,7 @@ require 'time'
 require 'base64'
 require 'json'
 module S3BrowserUploads
-  class Form
+  class FormDefinition
     attr_accessor :region, :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :expires, :fields
 
 

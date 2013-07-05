@@ -1,24 +1,24 @@
 require 'spec_helper'
 
-describe S3BrowserUploads::Form do
+describe S3BrowserUploads::FormDefinition do
 
   let(:expires_at) {Time.now + 1800}
   [:region, :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :bucket, :expires].each do |key|
     it "should set #{key} from hash passed to" do
-      form = S3BrowserUploads::Form.new(key => 'foo')
+      form = S3BrowserUploads::FormDefinition.new(key => 'foo')
       form.send(key).should == 'foo'
     end
   end
 
   describe 'endpoint' do
     it 'should return the url for the bucket' do
-      S3BrowserUploads::Form.new(:region => 'eu-west-1', :bucket => 'some-bucket').endpoint.should  ==
+      S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', :bucket => 'some-bucket').endpoint.should  ==
         "https://some-bucket.s3-eu-west-1.amazonaws.com"
     end
   end
 
   describe 'encoded_policy' do
-    subject { S3BrowserUploads::Form.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
+    subject { S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
 
     its(:encoded_policy) {should == Base64.strict_encode64(subject.policy_document.to_json)}
     its(:encoded_policy) {should_not include("\n") }
@@ -27,11 +27,11 @@ describe S3BrowserUploads::Form do
 
   describe 'signature' do
     #base64 hmac of the encoded policy
-    subject { S3BrowserUploads::Form.new(:aws_secret_access_key => '123XYZ', :region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
+    subject { S3BrowserUploads::FormDefinition.new(:aws_secret_access_key => '123XYZ', :region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
     its(:signature) {should == Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha1'), '123XYZ', subject.encoded_policy))}
     context 'with sample data' do
       subject do 
-        form = S3BrowserUploads::Form.new(:aws_secret_access_key => '123XYZ', :region => 'eu-west-1', :bucket => 'some-bucket', :expires => Time.utc(2012,1,1,1,1,1))
+        form = S3BrowserUploads::FormDefinition.new(:aws_secret_access_key => '123XYZ', :region => 'eu-west-1', :bucket => 'some-bucket', :expires => Time.utc(2012,1,1,1,1,1))
         form.add_field 'acl', 'public-read'
         form.add_condition 'key', 'starts-with' => 'users/fred/'
         form
@@ -42,7 +42,7 @@ describe S3BrowserUploads::Form do
   end
 
   describe 'policy_document' do
-    let(:form) { S3BrowserUploads::Form.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
+    let(:form) { S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
 
     it 'should contain expires and conditions' do
       form.policy_document.keys.should =~ %w(conditions expires)
