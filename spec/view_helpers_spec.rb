@@ -11,6 +11,10 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
       content.should have_css("form[action='#{form_definition.endpoint}']")
     end
 
+    it 'should rename the utf8 enforcer' do
+      content.should_not have_css("input[name=utf8]")
+      content.should have_css("input[name='x-ignore-utf8']")
+    end
   end
 
 end
