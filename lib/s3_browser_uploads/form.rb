@@ -40,8 +40,14 @@ module S3BrowserUploads
       @fields = {}
       @conditions = {}
       options.each {|key, value| public_send("#{key}=", value)}
+      @digest = OpenSSL::Digest::Digest.new('sha1')
+      @hmac = lambda {|data| OpenSSL::HMAC.digest(@digest, @aws_secret_access_key, data)}
     end
- 
+
+    def signature
+      Base64.strict_encode64(@hmac[encoded_policy])
+    end
+
     def endpoint
       "https://#{bucket}.s3-#{region}.amazonaws.com"
     end

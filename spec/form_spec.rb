@@ -25,6 +25,21 @@ describe S3BrowserUploads::Form do
 
   end
 
+  describe 'signature' do
+    #base64 hmac of the encoded policy
+    subject { S3BrowserUploads::Form.new(:aws_secret_access_key => '123XYZ', :region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
+    its(:signature) {should == Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha1'), '123XYZ', subject.encoded_policy))}
+    context 'with sample data' do
+      subject do 
+        form = S3BrowserUploads::Form.new(:aws_secret_access_key => '123XYZ', :region => 'eu-west-1', :bucket => 'some-bucket', :expires => Time.utc(2012,1,1,1,1,1))
+        form.add_field 'acl', 'public-read'
+        form.add_condition 'key', 'starts-with' => 'users/fred/'
+        form
+      end
+      its(:signature) {should == '9ea96Cgm8qqXa6HcE/nn2mN3U90='}
+    end
+
+  end
 
   describe 'policy_document' do
     let(:form) { S3BrowserUploads::Form.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
