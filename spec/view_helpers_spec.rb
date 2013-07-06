@@ -3,7 +3,12 @@ require 'spec_helper'
 describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
   include Capybara::RSpecMatchers
   include RSpec::Rails::HelperExampleGroup
-  let(:form_definition) {S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', :bucket => 'some-bucket')}
+  let(:form_definition) do 
+    S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', 
+                                         :bucket => 'some-bucket',
+                                         :aws_access_key_id => 'AnAccessKey',
+                                         :aws_secret_access_key => 'ASecretKey')
+  end
 
   describe 's3_form' do
     let(:content) {helper.s3_form(form_definition) {}}
