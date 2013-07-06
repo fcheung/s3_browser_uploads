@@ -15,6 +15,13 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
       its([:method]) { should == 'POST' }
     end
 
+    describe 'form contents' do
+
+      it 'should include a utf8 enforcer tag' do
+        content.should have_css("input[name='x-ignore-utf8'][value='\u2713']")
+      end
+
+    end
   end
 
 end
