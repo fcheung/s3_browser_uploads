@@ -6,6 +6,7 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
   let(:form_definition) do 
     S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', 
                                          :bucket => 'some-bucket',
+                                         :expires => Time.now + 1800,
                                          :aws_access_key_id => 'AnAccessKey',
                                          :aws_secret_access_key => 'ASecretKey')
   end
@@ -21,10 +22,15 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
     end
 
     describe 'form contents' do
-
+      subject {content}
       it 'should include a utf8 enforcer tag' do
-        content.should have_hidden_input("x-ignore-utf8").with_value("\u2713")
+        should have_hidden_input("x-ignore-utf8").with_value("\u2713")
       end
+
+      it { should  have_hidden_input('AWSAccessKeyID').with_value("AnAccessKey") } 
+      it { should  have_hidden_input('signature').with_value(form_definition.signature) } 
+      it { should  have_hidden_input('policy').with_value(form_definition.encoded_policy) } 
+      it { should  have_hidden_input('bucket').with_value(form_definition.bucket) } 
 
     end
   end
