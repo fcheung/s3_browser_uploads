@@ -23,9 +23,22 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
     describe 'form contents' do
 
       it 'should include a utf8 enforcer tag' do
-        content.should have_css("input[name='x-ignore-utf8'][value='\u2713']")
+        content.should have_hidden_input("x-ignore-utf8").with_value("\u2713")
       end
 
+    end
+  end
+
+  RSpec::Matchers.define :have_hidden_input do |name|
+
+    chain :with_value do |value|
+      @value = value
+    end
+
+    match do |x|
+      selector = "input[type=hidden][name='#{name}']"
+      selector += "[value='#{@value}']" if @value
+      x.should have_css(selector)
     end
   end
 
