@@ -3,7 +3,7 @@ require 'base64'
 require 'json'
 module S3BrowserUploads
   class FormDefinition
-    attr_accessor :region, :aws_secret_access_key, :aws_session_token, :expires, :fields, :conditions
+    attr_accessor :region, :aws_secret_access_key, :expires, :fields, :conditions
 
 
     def aws_access_key_id= value
