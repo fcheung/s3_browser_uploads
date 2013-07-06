@@ -43,7 +43,7 @@ describe S3BrowserUploads::FormDefinition do
         form.add_condition 'key', 'starts-with' => 'users/fred/'
         form
       end
-      its(:signature) {should == '9ea96Cgm8qqXa6HcE/nn2mN3U90='}
+      its(:signature) {should == 'uxKt7EExauvCe41l6O44RnMlZmQ='}
     end
 
   end
@@ -51,12 +51,12 @@ describe S3BrowserUploads::FormDefinition do
   describe 'policy_document' do
     let(:form) { S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
 
-    it 'should contain expires and conditions' do
-      form.policy_document.keys.should =~ %w(conditions expires)
+    it 'should contain expiration and conditions' do
+      form.policy_document.keys.should =~ %w(conditions expiration)
     end
 
-    it 'should set expires to the xml schema representation of the expiry date' do
-      form.policy_document['expires'].should == expires_at.xmlschema
+    it 'should set expiration to the xml schema representation of the expiry date' do
+      form.policy_document['expiration'].should == expires_at.xmlschema
     end
 
     context 'with no conditions added' do

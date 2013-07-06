@@ -76,7 +76,7 @@ module S3BrowserUploads
 
     def policy_document
       {
-        'expires' => expires.xmlschema,
+        'expiration' => expires.xmlschema,
         'conditions' => @conditions.values
       }
     end
