@@ -19,6 +19,12 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
       its([:action]) { should == form_definition.endpoint }
       its([:enctype]) { should == 'multipart/form-data' }
       its([:method]) { should == 'POST' }
+
+      context 'html options are passed' do
+        it 'should add them to the form' do
+          helper.s3_form(form_definition, :id => 'a-form'){}.should have_css 'form#a-form'
+        end
+      end
     end
 
     describe 'form contents' do
