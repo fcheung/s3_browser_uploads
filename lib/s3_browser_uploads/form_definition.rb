@@ -3,7 +3,7 @@ require 'base64'
 require 'json'
 module S3BrowserUploads
   class FormDefinition
-    attr_accessor :region, :aws_secret_access_key, :aws_session_token, :expires, :fields
+    attr_accessor :region, :aws_secret_access_key, :aws_session_token, :expires, :fields, :conditions
 
 
     def aws_access_key_id= value
@@ -13,6 +13,16 @@ module S3BrowserUploads
     def aws_access_key_id
       fields['AWSAccessKeyID'] #access key id is not included in the policy
     end
+
+
+    def aws_session_token
+      fields['x-amz-security-token']
+    end
+
+    def aws_session_token= value
+      add_field 'x-amz-security-token', value
+    end
+
 
     def bucket
       fields['bucket']

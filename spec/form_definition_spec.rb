@@ -17,6 +17,13 @@ describe S3BrowserUploads::FormDefinition do
     end
   end
 
+  describe 'aws_session_token' do
+    it 'should be added as the x-amz-security-token field' do
+      form = S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', :bucket => 'some-bucket', :aws_session_token => 'token')
+      form.fields['x-amz-security-token'].should == 'token'
+      form.conditions['x-amz-security-token'].should == {'x-amz-security-token' => 'token'}
+    end
+  end
   describe 'encoded_policy' do
     subject { S3BrowserUploads::FormDefinition.new(:region => 'eu-west-1', :bucket => 'some-bucket', :expires => expires_at)}
 
