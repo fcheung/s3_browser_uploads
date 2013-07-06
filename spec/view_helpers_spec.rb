@@ -7,14 +7,14 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
 
   describe 's3_form' do
     let(:content) {helper.s3_form(form_definition) {}}
-    it 'should render a form tag pointing at the bucket' do
-      content.should have_css("form[action='#{form_definition.endpoint}']")
+
+    describe 'form tag' do
+      subject {Capybara.string(content).find('form')}
+      its([:action]) { should == form_definition.endpoint }
+      its([:enctype]) { should == 'multipart/form-data' }
+      its([:method]) { should == 'POST' }
     end
 
-    it 'should rename the utf8 enforcer' do
-      content.should_not have_css("input[name=utf8]")
-      content.should have_css("input[name='x-ignore-utf8']")
-    end
   end
 
 end

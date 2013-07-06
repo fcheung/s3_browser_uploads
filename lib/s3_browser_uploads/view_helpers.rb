@@ -1,7 +1,7 @@
 module S3BrowserUploads
   module ViewHelpers
     def s3_form form_definition, html_options={}, &block
-      options = {'action' => form_definition.endpoint, 'enctype' => "multipart/form-data",'accept-charset' => "UTF-8"}
+      options = {'action' => form_definition.endpoint, 'method' => 'POST', 'enctype' => "multipart/form-data",'accept-charset' => "UTF-8"}
       options.merge! html_options
 
       output = ActiveSupport::SafeBuffer.new
