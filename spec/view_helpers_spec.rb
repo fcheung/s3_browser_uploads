@@ -32,6 +32,11 @@ describe S3BrowserUploads::ViewHelpers, :type => 'helper' do
       it { should  have_hidden_input('policy').with_value(form_definition.encoded_policy) } 
       it { should  have_hidden_input('bucket').with_value(form_definition.bucket) } 
 
+
+      context 'a field was added to the form' do 
+        before(:each) { form_definition.add_field 'Content-Disposition', 'inline'}
+        it { should have_hidden_input('Content-Disposition').with_value('inline')}
+      end
     end
   end
 
