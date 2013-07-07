@@ -1,4 +1,5 @@
 # S3BrowserUploads
+[![Build Status](https://travis-ci.org/fcheung/s3_browser_uploads.png)](https://travis-ci.org/fcheung/s3_browser_uploads)
 
 Easy straight-to-s3 uploads from your browser for rails. Takes care of policy documents and all that jazz. More details [http://www.spacevatican.org/2013/7/7/direct-to-s3-browser-uploads](here)
 
