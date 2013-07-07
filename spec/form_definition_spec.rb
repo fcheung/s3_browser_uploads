@@ -1,5 +1,5 @@
 require 'spec_helper'
-
+require 'tzinfo'
 describe S3BrowserUploads::FormDefinition do
 
   let(:expires_at) {Time.now + 1800}
@@ -57,6 +57,15 @@ describe S3BrowserUploads::FormDefinition do
 
     it 'should set expiration to the xml schema representation of the expiry date' do
       form.policy_document['expiration'].should == expires_at.xmlschema
+    end
+
+    context 'the expires an ActiveSupport::TimeZone' do
+      let(:expires_at) do 
+        ActiveSupport::TimeZone['America/New_York' ].now
+      end
+      it 'should convert to gmt' do
+        form.policy_document['expiration'].should == expires_at.utc.xmlschema
+      end
     end
 
     context 'with no conditions added' do
