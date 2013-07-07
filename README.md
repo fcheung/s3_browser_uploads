@@ -2,6 +2,13 @@
 
 Easy straight-to-s3 uploads from your browser for rails. Takes care of policy documents and all that jazz
 
+## Installation
+
+Add
+
+    gem 's3_browser_uploads'
+
+to your gemfile
 ## Example Usage
 
 In your controller
