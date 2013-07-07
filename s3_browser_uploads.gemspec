@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "actionpack", "~> 3.2.13"
   spec.add_development_dependency "tzinfo"
   spec.add_development_dependency "capybara", "~> 2.1.0"
+  spec.add_development_dependency "nokogiri", "~> 1.5.10"
 end
