@@ -30,3 +30,7 @@ Call `add_field` to add a hidden field both to the form and to the policy docume
 
 This adds `acl` to the policy document and states that it can take any value. Then you'd need to add an input to the form that would allow the user to choose the acl.
  
+
+You can restrict the allowable size of the upload to 1MB with
+
+    @form_definition.restrict_content_length 0..1024*1024
