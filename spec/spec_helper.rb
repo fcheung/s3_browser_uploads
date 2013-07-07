@@ -1,6 +1,8 @@
 require 'bundler/setup'
 require 's3_browser_uploads'
 require 'action_controller'
+require 'active_support/time_with_zone'
+require 'tzinfo'
 module Rails
   module VERSION
     STRING = '3.2.13'

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'tzinfo'
 describe S3BrowserUploads::FormDefinition do
 
   let(:expires_at) {Time.now + 1800}

@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 2.13.0"
   spec.add_development_dependency "rspec-rails", "~> 2.13.0"
-  spec.add_development_dependency "rails", "~> 3.2.13"
+  spec.add_development_dependency "actionpack", "~> 3.2.13"
+  spec.add_development_dependency "tzinfo"
   spec.add_development_dependency "capybara", "~> 2.1.0"
 end
