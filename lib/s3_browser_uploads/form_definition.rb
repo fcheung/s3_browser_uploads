@@ -58,7 +58,7 @@ module S3BrowserUploads
       @fields = {}
       @conditions = {}
       options.each {|key, value| public_send("#{key}=", value)}
-      @digest = OpenSSL::Digest::Digest.new('sha1')
+      @digest = OpenSSL::Digest.new('sha1')
       @hmac = lambda {|data| OpenSSL::HMAC.digest(@digest, @aws_secret_access_key, data)}
     end
 
